@@ -3,7 +3,7 @@
 //
 
 #include <cmath>
-#include "mat.h"
+#include "math3d/mat.h"
 
 Mat4 operator+(Mat4 a, Mat4 const &b)
 {

@@ -3,7 +3,7 @@
 //
 
 #include <cmath>
-#include "mat.h"
+#include "math3d/mat.h"
 
 Mat3::Mat3(float e11, float e12, float e13,
            float e21, float e22, float e23,

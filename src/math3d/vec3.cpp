@@ -2,7 +2,7 @@
 // Created by kieran on 22/05/19.
 //
 
-#include "vec.h"
+#include "math3d/vec.h"
 
 Vec3 operator/(Vec3 a, Vec3 const &b)
 {

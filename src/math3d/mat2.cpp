@@ -3,7 +3,7 @@
 //
 
 #include <cmath>
-#include "mat.h"
+#include "math3d/mat.h"
 
 
 Mat2::Mat2(float e11, float e12,
