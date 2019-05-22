@@ -1,7 +1,10 @@
 #include <iostream>
 
-int main()
+#include "../common/init.h"
+
+int main(int argc, char ** argv)
 {
-    std::cout << "Hello, World!" << std::endl;
+    init(argc, argv);
+    loop();
     return 0;
 }
