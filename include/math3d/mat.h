@@ -151,6 +151,8 @@ struct Mat4
 
     Mat4 translated(float xt, float yt, float zt);
 
+    Mat4 translated(Vec3 const&v);
+
     Mat4 perspective(float xnear, float ynear, float near, float far);
 
     Mat4 ortho(float top, float bottom, float left, float right, float near, float far);
@@ -189,5 +191,7 @@ Mat4 operator+(Mat4 a, Mat4 const &b);
 Mat4 operator-(Mat4 a, Mat4 const &b);
 
 Mat4 operator*(Mat4 const &a, Mat4 const &b);
+
+Mat4 lookat(Vec3 const &from, Vec3 const &to, Vec3 const &up, float fov, float aspect, float near, float far);
 
 #endif //CITS3003_MAT_H

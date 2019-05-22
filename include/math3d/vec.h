@@ -81,6 +81,8 @@ struct Vec3
 
     float dot(Vec3 const &v) const;
 
+    Vec3 cross(Vec3 const &v) const;
+
     float x;
     float y;
     float z;

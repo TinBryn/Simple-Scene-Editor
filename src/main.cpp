@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "init.h"
 
 int main(int argc, char ** argv)

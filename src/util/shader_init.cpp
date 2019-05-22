@@ -5,7 +5,7 @@
 #include <string>
 #include <iterator>
 #include <GL/glew.h>
-#include "shader_init.h"
+#include "util/shader_init.h"
 
 std::string load_stream(std::istream &stream)
 {

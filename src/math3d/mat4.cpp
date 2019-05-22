@@ -3,6 +3,7 @@
 //
 
 #include <cmath>
+#include <math3d/vec.h>
 #include "math3d/mat.h"
 
 Mat4 operator+(Mat4 a, Mat4 const &b)
@@ -127,6 +128,11 @@ Mat4 Mat4::translated(float xt, float yt, float zt)
             0, 0, 0, 1};
 }
 
+Mat4 Mat4::translated(Vec3 const &v)
+{
+    return translated(v.x, v.y, v.z);
+}
+
 Mat4 Mat4::perspective(float xfov, float yfov, float near, float far)
 {
     float xs = xfov;
@@ -179,3 +185,9 @@ Mat4::Mat4(Mat2 const &m) : Mat4{m.e11, m.e12, 0, 0,
                                  0, 0, 1, 0,
                                  0, 0, 0, 1}
 {}
+
+Mat4 lookat(Vec3 const &from, Vec3 const &to, Vec3 const &up, float fov, float aspect, float near, float far)
+{
+    return Mat4(1)
+            .translated(-from);
+}
