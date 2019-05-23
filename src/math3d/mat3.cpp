@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include "math3d/mat.h"
+#include "math3d/vec.h"
 
 Mat3::Mat3(float e11, float e12, float e13,
            float e21, float e22, float e23,
@@ -121,4 +122,11 @@ Mat3 operator*(Mat3 const &a, Mat3 const &b)
             a[6] * b[0] + a[7] * b[3] + a[8] * b[6],
             a[6] * b[1] + a[7] * b[4] + a[8] * b[7],
             a[6] * b[2] + a[7] * b[5] + a[8] * b[8]};
+}
+
+Vec3 operator*(Mat3 const &m, Vec3 const &b)
+{
+    return {m[0] * b.x + m[1] * b.y + m[2] * b.z,
+            m[3] * b.x + m[4] * b.y + m[5] * b.z,
+            m[6] * b.x + m[7] * b.y + m[8] * b.z};
 }

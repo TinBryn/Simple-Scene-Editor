@@ -53,6 +53,8 @@ Mat2 operator-(Mat2 a, Mat2 const &b);
 
 Mat2 operator*(Mat2 const &a, Mat2 const &b);
 
+Vec2 operator*(Mat2 const &m, Vec2 const &b);
+
 struct Mat3
 {
     Mat3() = default;
@@ -113,6 +115,8 @@ Mat3 operator-(Mat3 a, Mat3 const &b);
 
 Mat3 operator*(Mat3 const &a, Mat3 const &b);
 
+Vec3 operator*(Mat3 const &m, Vec3 const &b);
+
 struct Mat4
 {
     Mat4() = default;
@@ -148,6 +152,8 @@ struct Mat4
     Mat4 rotatedZX(float angle);
 
     Mat4 scaled(float xs, float ys, float zs);
+
+    Mat4 scaled(float s);
 
     Mat4 translated(float xt, float yt, float zt);
 
@@ -191,6 +197,8 @@ Mat4 operator+(Mat4 a, Mat4 const &b);
 Mat4 operator-(Mat4 a, Mat4 const &b);
 
 Mat4 operator*(Mat4 const &a, Mat4 const &b);
+
+Vec4 operator*(Mat4 const &m, Vec4 const &b);
 
 Mat4 lookat(Vec3 const &from, Vec3 const &to, Vec3 const &up, float fov, float aspect, float near, float far);
 

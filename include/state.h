@@ -10,6 +10,7 @@
 #include <vector>
 #include <util/shaders.h>
 #include "model.h"
+#include "texture.h"
 
 struct State
 {
@@ -18,6 +19,8 @@ struct State
     static unsigned int shader;
     static ShaderProgram program;
     static std::vector<Model> models;
+    static std::vector<texture> textures;
+    static float angle;
 };
 
 #endif //CITS3003_STATE_H

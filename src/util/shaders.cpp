@@ -87,7 +87,10 @@ void ShaderProgram::reload()
         shader.destroy();
     }
 
-
-
     glUseProgram(id);
+
+    vPosition_location = glGetAttribLocation(id, "vPosition");
+    vTex_location = glGetAttribLocation(id, "vTex");
+    vNormal_location = glGetAttribLocation(id, "vNormal");
+    ModelView_location = glGetUniformLocation(id, "ModelView");
 }

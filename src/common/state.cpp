@@ -9,3 +9,4 @@ int State::window_height;
 unsigned int State::shader;
 ShaderProgram State::program;
 std::vector<Model> State::models;
+float State::angle = 0.0;

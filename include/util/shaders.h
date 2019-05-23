@@ -23,6 +23,10 @@ struct ShaderProgram
     void attachShader(Shader const&shader);
     void reload();
     void link();
+    unsigned int vPosition_location;
+    unsigned int vTex_location;
+    unsigned int vNormal_location;
+    unsigned int ModelView_location;
 
 private:
     std::vector<Shader> shaders;

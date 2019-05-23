@@ -186,8 +186,21 @@ Mat4::Mat4(Mat2 const &m) : Mat4{m.e11, m.e12, 0, 0,
                                  0, 0, 0, 1}
 {}
 
+Mat4 Mat4::scaled(float s)
+{
+    return scaled(s, s, s);
+}
+
 Mat4 lookat(Vec3 const &from, Vec3 const &to, Vec3 const &up, float fov, float aspect, float near, float far)
 {
     return Mat4(1)
             .translated(-from);
+}
+
+Vec4 operator*(Mat4 const &m, Vec4 const &b)
+{
+    return {m[0] * b.x + m[1] * b.y + m[2] * b.z + m[3] * b.w,
+            m[4] * b.x + m[5] * b.y + m[6] * b.z + m[7] * b.w,
+            m[8] * b.x + m[9] * b.y + m[10] * b.z + m[11] * b.w,
+            m[12] * b.x + m[13] * b.y + m[14] * b.z + m[15] * b.w};
 }

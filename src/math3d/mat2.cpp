@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include "math3d/mat.h"
+#include "math3d/vec.h"
 
 
 Mat2::Mat2(float e11, float e12,
@@ -79,4 +80,10 @@ Mat2 Mat2::scaled(float xs, float ys)
 {
     return {e11 * xs, e12 * xs,
             e21 * ys, e22 * ys};
+}
+
+Vec2 operator*(Mat2 const &m, Vec2 const &b)
+{
+    return {m[0] * b.x + m[1] * b.y,
+            m[2] * b.x + m[3] * b.y};
 }

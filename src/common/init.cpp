@@ -17,6 +17,8 @@ void init(int argc, char **argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(State::window_width, State::window_height);
     glutInitWindowPosition(100, 100);
+    glutInitContextVersion(3, 2);
+    glutInitContextProfile(GLUT_CORE_PROFILE);
     glutCreateWindow(argv[0]);
     glewInit();
     glutDisplayFunc(render_scene);
@@ -33,7 +35,7 @@ void init(int argc, char **argv)
 //    State::shader = initShader("../src/shaders/vert.glsl", "../src/shaders/frag.glsl");
 //    glUseProgram(State::shader);
 
-    State::models.push_back(createModel(State::program.id));
+    State::models.push_back(Model::initFromFile("../models-textures/model1.x", State::program));
 }
 
 void loop()
