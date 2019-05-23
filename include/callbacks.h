@@ -7,7 +7,11 @@
 
 void render_scene();
 
-void keyboard(unsigned char key, int, int);
+void keyboard(unsigned char key, int x, int y);
+
+void special_keyboard(int key, int x, int y);
+
+void resize(int width, int height);
 
 void idle();
 
