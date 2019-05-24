@@ -49,6 +49,7 @@ void init(int argc, char **argv)
     glutAddMenuEntry("Red", 1);
     glutAddMenuEntry("Green", 2);
     glutAddMenuEntry("Blue", 3);
+    glutAddMenuEntry("Quit", 4);
 
     glutAttachMenu(GLUT_RIGHT_BUTTON);
 

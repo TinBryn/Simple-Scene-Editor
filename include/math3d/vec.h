@@ -43,6 +43,8 @@ struct Vec2
 
     float dot(Vec2 const &v) const;
 
+    float const *data() const;
+
     float x;
     float y;
 };
@@ -83,6 +85,8 @@ struct Vec3
 
     Vec3 cross(Vec3 const &v) const;
 
+    float const *data() const;
+
     float x;
     float y;
     float z;
@@ -121,6 +125,8 @@ struct Vec4
     Vec4 operator*(Mat4 const &m) const;
 
     float dot(Vec4 const &v) const;
+
+    float const *data() const;
 
     float x;
     float y;

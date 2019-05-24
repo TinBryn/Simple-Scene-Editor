@@ -93,3 +93,8 @@ float Vec2::dot(Vec2 const &v) const
 {
     return x * v.x + y * v.y;
 }
+
+float const *Vec2::data() const
+{
+    return &x;
+}

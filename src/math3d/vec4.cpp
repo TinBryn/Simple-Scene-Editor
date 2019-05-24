@@ -81,6 +81,11 @@ float Vec4::dot(Vec4 const &v) const
     return x * v.x + y * v.y + z * v.z + w * v.w;
 }
 
+float const *Vec4::data() const
+{
+    return &x;
+}
+
 Vec4 operator+(Vec4 a, Vec4 const &b)
 {
     return a += b;

@@ -33,8 +33,8 @@ struct ShaderProgram
     unsigned int Diffuse_location;
     unsigned int Specular_location;
     unsigned int LightPosition_location;
+    unsigned int LightColor_location;
     unsigned int Shininess_location;
-    unsigned int Color_location;
 
 private:
     std::vector<Shader> shaders;

@@ -106,3 +106,8 @@ Vec3 Vec3::cross(Vec3 const&v) const
      */
     return Vec3(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 }
+
+float const *Vec3::data() const
+{
+    return &x;
+}

@@ -9,6 +9,7 @@
 #include <math3d/mat.h>
 #include "callbacks.h"
 
+//Lazily initialize textures and models
 texture &getTexture(int i)
 {
     texture &t = State::textures[i];
@@ -68,6 +69,8 @@ void render_scene()
     Mat4 projection = perspective(State::window_width / m, State::window_height / m, 0.1, 1000);
 
     glUniformMatrix4fv(State::program.Projection_location, 1, GL_TRUE, projection.data);
+    glUniform3fv(State::program.LightPosition_location, 1, State::light.position.data());
+    glUniform3fv(State::program.LightColor_location, 1, State::light.color.data());
 
     drawObject(State::floor, view);
 

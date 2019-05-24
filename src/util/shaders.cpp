@@ -95,4 +95,6 @@ void ShaderProgram::reload()
     ModelView_location = glGetUniformLocation(id, "ModelView");
     Projection_location = glGetUniformLocation(id, "Projection");
     texture_location = glGetUniformLocation(id, "texture");
+    LightPosition_location = glGetUniformLocation(id, "LightPosition");
+    LightColor_location = glGetUniformLocation(id, "LightColor");
 }

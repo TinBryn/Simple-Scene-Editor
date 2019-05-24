@@ -14,6 +14,7 @@
 #include "scene_object.h"
 #include "camera.h"
 #include "mouse.h"
+#include "light.h"
 
 struct State
 {
@@ -26,6 +27,7 @@ struct State
     static Mouse mouse;
     static std::vector<SceneObject> objects;
     static SceneObject floor;
+    static Light light;
 };
 
 #endif //CITS3003_STATE_H

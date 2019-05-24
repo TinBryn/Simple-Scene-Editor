@@ -13,3 +13,4 @@ Camera State::camera = Camera{{0,0,0}, 0, -0.2, 1, 150};
 std::vector<SceneObject> State::objects;
 SceneObject State::floor;
 Mouse State::mouse;
+Light State::light{{0, 100, 100},{}};
