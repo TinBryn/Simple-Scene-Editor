@@ -29,19 +29,21 @@ Model &getModel(int i)
     return m;
 }
 
-void drawObject(SceneObject object, Mat4 const &View)
+void drawObject(SceneObject const &object, Mat4 const &View)
 {
-    Mat4 modelView = View
-                     * Mat4(1).translated(object.location)
-                     * Mat4(1).scaled(object.scale)
-                     * Mat4(1).rotatedXY(object.angles[2])
-                     * Mat4(1).rotatedZX(object.angles[1])
-                     * Mat4(1).rotatedYZ(object.angles[0]);
+    Mat4 modelView = View * Mat4(1)
+            .rotatedYZ(object.angles[0])
+            .rotatedZX(object.angles[1])
+            .rotatedXY(object.angles[2])
+            .scaled(object.scale)
+            .translated(object.location);
 
     glUniformMatrix4fv(State::program.ModelView_location, 1, GL_TRUE, modelView.data);
 
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, getTexture(object.textureId).id);
+
+    unsigned int tID = getTexture(object.textureId).id;
+    glBindTexture(GL_TEXTURE_2D, tID);
 
     glUniform1i(State::program.texture_location, 0);
     glBindVertexArray(getModel(object.modelId).vao);
@@ -52,15 +54,18 @@ void drawObject(SceneObject object, Mat4 const &View)
 void render_scene()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     Mat4 view = Mat4(1)
+            .translated(-State::camera.position)
             .rotatedZX(State::camera.hAngle)
             .rotatedYZ(State::camera.vAngle)
-            .translated(-State::camera.position);
+            .translated(0.0, 0.0, State::camera.distance)
 
+    ;
 
     float m = std::min(State::window_width, State::window_height) * State::camera.zoom;
 
-    Mat4 projection = perspective(State::window_width / m, State::window_height / m, 0.1, 300);
+    Mat4 projection = perspective(State::window_width / m, State::window_height / m, 0.1, 1000);
 
     glUniformMatrix4fv(State::program.Projection_location, 1, GL_TRUE, projection.data);
 

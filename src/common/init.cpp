@@ -11,7 +11,7 @@
 #include "state.h"
 
 
-void loadAllModelsAndTextures()
+void preAllocateModelsAndTextures()
 {
     const int ModelNumber = 56;
     const int TextureNumber = 31;
@@ -39,8 +39,18 @@ void init(int argc, char **argv)
     glutReshapeFunc(resize);
     glutKeyboardFunc(keyboard);
     glutSpecialFunc(special_keyboard);
-    glutPassiveMotionFunc(mousePassiveMotion);
+    glutPassiveMotionFunc(mouseMove);
+    glutMouseFunc(mouseClick);
+    glutMotionFunc(mouseMove);
     glutIdleFunc(idle);
+
+    int menu = glutCreateMenu(mainMenu);
+
+    glutAddMenuEntry("Red", 1);
+    glutAddMenuEntry("Green", 2);
+    glutAddMenuEntry("Blue", 3);
+
+    glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 
     glClearColor(0.2, 0.3, 0.4, 1.0);
@@ -52,7 +62,7 @@ void init(int argc, char **argv)
 //    State::shader = initShader("../src/shaders/vert.glsl", "../src/shaders/frag.glsl");
 //    glUseProgram(State::shader);
 
-    loadAllModelsAndTextures();
+    preAllocateModelsAndTextures();
 
     std::random_device device;
     std::mt19937 generator(device());
@@ -70,8 +80,8 @@ void init(int argc, char **argv)
 
     State::objects.emplace_back(model, objTexture);
 
-    State::models.push_back(Model::initFromFile("../models-textures/model0.x", State::program));
-    State::models.push_back(Model::initFromFile("../models-textures/model3.x", State::program));
+//    State::models.push_back(Model::initFromFile("../models-textures/model0.x", State::program));
+//    State::models.push_back(Model::initFromFile("../models-textures/model3.x", State::program));
 }
 
 void loop()

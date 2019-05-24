@@ -13,6 +13,7 @@ struct Camera
     float hAngle;
     float vAngle;
     float zoom;
+    float distance;
 };
 
 #endif //CITS3003_CAMERA_H

@@ -13,7 +13,11 @@ void special_keyboard(int key, int x, int y);
 
 void resize(int width, int height);
 
-void mousePassiveMotion(int x, int y);
+void mouseClick(int button, int state, int x, int y);
+
+void mouseMove(int x, int y);
+
+void mainMenu(int id);
 
 void idle();
 

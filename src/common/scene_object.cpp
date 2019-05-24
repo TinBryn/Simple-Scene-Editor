@@ -5,8 +5,8 @@
 #include <scene_object.h>
 
 SceneObject::SceneObject(int model, int texture)
-        : location{}, scale{1}, angles{}, diffuse{}, specular{}, ambient{}, shine{}, color{},
-          brightness{}, modelId{model}, textureId{texture}, texScale{}
+        : location{}, scale{1}, angles{},
+          modelId{model}, textureId{texture}, texScale{}
 {
 
 }

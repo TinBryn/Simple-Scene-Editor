@@ -13,6 +13,7 @@
 #include "texture.h"
 #include "scene_object.h"
 #include "camera.h"
+#include "mouse.h"
 
 struct State
 {
@@ -22,13 +23,9 @@ struct State
     static std::vector<Model> models;
     static std::vector<texture> textures;
     static Camera camera;
-    static int mouseX;
-    static int mouseY;
-    static int mouseButton;
+    static Mouse mouse;
     static std::vector<SceneObject> objects;
     static SceneObject floor;
-    static Vec3 lightPos;
-    static Vec3 lightColor;
 };
 
 #endif //CITS3003_STATE_H

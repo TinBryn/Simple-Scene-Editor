@@ -22,22 +22,10 @@ void keyboard(unsigned char key, int, int)
             std::cout << "done" << std::endl;
 
             break;
-        case 'a':
-            State::camera.hAngle += 0.05;
-            break;
-        case 'd':
-            State::camera.hAngle -= 0.05;
-            break;
         case 'w':
-            State::camera.vAngle -= 0.01;
-            break;
-        case 's':
-            State::camera.vAngle += 0.01;
-            break;
-        case 'i':
             State::camera.position.y += 10;
             break;
-        case 'k':
+        case 's':
             State::camera.position.y -= 10;
             break;
         default:
@@ -50,6 +38,10 @@ void special_keyboard(int key, int, int)
 {
     switch (key)
     {
+        case GLUT_KEY_LEFT:
+            break;
+        case GLUT_KEY_RIGHT:
+            break;
         default:
             std::cout << key << std::endl;
             break;

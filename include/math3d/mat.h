@@ -146,19 +146,19 @@ struct Mat4
 
     float const &operator[](int i) const;
 
-    Mat4 rotatedXY(float angle);
+    Mat4 rotatedXY(float angle)const;
 
-    Mat4 rotatedYZ(float angle);
+    Mat4 rotatedYZ(float angle)const;
 
-    Mat4 rotatedZX(float angle);
+    Mat4 rotatedZX(float angle)const;
 
-    Mat4 scaled(float xs, float ys, float zs);
+    Mat4 scaled(float xs, float ys, float zs)const;
 
-    Mat4 scaled(float s);
+    Mat4 scaled(float s)const;
 
-    Mat4 translated(float xt, float yt, float zt);
+    Mat4 translated(float xt, float yt, float zt)const;
 
-    Mat4 translated(Vec3 const&v);
+    Mat4 translated(Vec3 const&v)const;
 
     Mat4 perspective(float xfov, float yfov, float near, float far);
 

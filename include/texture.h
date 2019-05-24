@@ -14,7 +14,7 @@ struct texture
     unsigned char *rgbData;   // Array of bytes with the colour data for the texture
     unsigned int id;
 
-    static texture openFromFile(std::string const&filename);
+    static texture openFromFile(std::string const &filename);
 };
 
 #endif //CITS3003_TEXTURE_H

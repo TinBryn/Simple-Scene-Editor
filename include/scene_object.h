@@ -15,10 +15,6 @@ struct SceneObject
     Vec3 location;
     float scale;
     float angles[3];
-    float diffuse, specular, ambient;
-    float shine;
-    Vec3 color;
-    float brightness;
     int modelId;
     int textureId;
     float texScale;

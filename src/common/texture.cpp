@@ -25,6 +25,8 @@ texture texture::openFromFile(std::string const &filename)
 
     std::cout << "\nLoaded a " << t.height << " by " << t.width << " texture\n" << std::endl;
 
+    glGenTextures(1, &t.id);
+
     glActiveTexture(GL_TEXTURE0);
 
     glBindTexture(GL_TEXTURE_2D, t.id);

@@ -82,38 +82,38 @@ float &Mat4::operator[](int i)
 float const &Mat4::operator[](int i) const
 { return data[i]; }
 
-Mat4 Mat4::rotatedXY(float angle)
+Mat4 Mat4::rotatedXY(float angle) const
 {
     float s = std::sin(angle);
     float c = std::cos(angle);
 
-    return {e11 * c - e21 * s, e12 * c - e22 * s, e13 * c - e23 * s, 0,
-            e11 * s + e21 * c, e12 * s + e22 * c, e13 * s + e23 * c, 0,
-            e31, e32, e33, 0,
+    return {e11 * c - e21 * s, e12 * c - e22 * s, e13 * c - e23 * s, e14 * c - e24 * s,
+            e11 * s + e21 * c, e12 * s + e22 * c, e13 * s + e23 * c, e14 * s + e24 * c,
+            e31, e32, e33, e34,
             0, 0, 0, 1};
 }
 
-Mat4 Mat4::rotatedYZ(float angle)
+Mat4 Mat4::rotatedYZ(float angle) const
 {
     float s = std::sin(angle);
     float c = std::cos(angle);
-    return {e11, e12, e13, 0,
-            e21 * c - e31 * s, e22 * c - e32 * s, e23 * c - e33 * s, 0,
-            e21 * s + e31 * c, e22 * s + e32 * c, e23 * s + e33 * c, 0,
+    return {e11, e12, e13, e14,
+            e21 * c - e31 * s, e22 * c - e32 * s, e23 * c - e33 * s, e24 * c - e34 * s,
+            e21 * s + e31 * c, e22 * s + e32 * c, e23 * s + e33 * c, e24 * s + e34 * c,
             0, 0, 0, 1};
 }
 
-Mat4 Mat4::rotatedZX(float angle)
+Mat4 Mat4::rotatedZX(float angle) const
 {
     float s = std::sin(angle);
     float c = std::cos(angle);
-    return {e31 * s + e11 * c, e32 * s + e12 * c, e33 * s + e13 * c, 0,
-            e21, e22, e23, 0,
-            e31 * c - e11 * s, e32 * c - e12 * s, e33 * c - e13 * s, 0,
+    return {e31 * s + e11 * c, e32 * s + e12 * c, e33 * s + e13 * c, e34 * s + e14 * c,
+            e21, e22, e23, e24,
+            e31 * c - e11 * s, e32 * c - e12 * s, e33 * c - e13 * s, e34 * c - e14 * s,
             0, 0, 0, 1};
 }
 
-Mat4 Mat4::scaled(float xs, float ys, float zs)
+Mat4 Mat4::scaled(float xs, float ys, float zs) const
 {
     return {e11 * xs, e12 * xs, e13 * xs, e14 * xs,
             e21 * ys, e22 * ys, e23 * ys, e24 * ys,
@@ -121,7 +121,7 @@ Mat4 Mat4::scaled(float xs, float ys, float zs)
             0, 0, 0, 1};
 }
 
-Mat4 Mat4::translated(float xt, float yt, float zt)
+Mat4 Mat4::translated(float xt, float yt, float zt) const
 {
     return {e11, e12, e13, e14 + xt,
             e21, e22, e23, e24 + yt,
@@ -129,7 +129,7 @@ Mat4 Mat4::translated(float xt, float yt, float zt)
             0, 0, 0, 1};
 }
 
-Mat4 Mat4::translated(Vec3 const &v)
+Mat4 Mat4::translated(Vec3 const &v) const
 {
     return translated(v.x, v.y, v.z);
 }
@@ -187,7 +187,7 @@ Mat4::Mat4(Mat2 const &m) : Mat4{m.e11, m.e12, 0, 0,
                                  0, 0, 0, 1}
 {}
 
-Mat4 Mat4::scaled(float s)
+Mat4 Mat4::scaled(float s) const
 {
     return scaled(s, s, s);
 }
@@ -206,12 +206,12 @@ Vec4 operator*(Mat4 const &m, Vec4 const &b)
             m[12] * b.x + m[13] * b.y + m[14] * b.z + m[15] * b.w};
 }
 
-std::ostream &operator <<(std::ostream& os, Mat4 const&mat)
+std::ostream &operator<<(std::ostream &os, Mat4 const &mat)
 {
-    os << mat[0] << ", " << mat[1]<< ", " << mat[2]<< ", " << mat[3] << std::endl;
-    os << mat[4] << ", " << mat[5]<< ", " << mat[6]<< ", " << mat[7] << std::endl;
-    os << mat[8] << ", " << mat[9]<< ", " << mat[10]<< ", " << mat[11] << std::endl;
-    os << mat[12] << ", " << mat[13]<< ", " << mat[14]<< ", " << mat[15] << std::endl;
+    os << mat[0] << ", " << mat[1] << ", " << mat[2] << ", " << mat[3] << std::endl;
+    os << mat[4] << ", " << mat[5] << ", " << mat[6] << ", " << mat[7] << std::endl;
+    os << mat[8] << ", " << mat[9] << ", " << mat[10] << ", " << mat[11] << std::endl;
+    os << mat[12] << ", " << mat[13] << ", " << mat[14] << ", " << mat[15] << std::endl;
 }
 
 Mat4 perspective(float width, float height, float near, float far)
