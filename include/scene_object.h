@@ -9,15 +9,18 @@
 
 struct SceneObject
 {
-    Vec4 location;
+    SceneObject(int model, int texture);
+    SceneObject() = default;
+
+    Vec3 location;
     float scale;
     float angles[3];
     float diffuse, specular, ambient;
     float shine;
     Vec3 color;
     float brightness;
-    int meshId;
-    int texId;
+    int modelId;
+    int textureId;
     float texScale;
 };
 

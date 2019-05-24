@@ -17,9 +17,7 @@ texture loadTextureNum(int num)
 
     char fileName[220];
     sprintf(fileName, "%s/texture%d.bmp", dataDir, num);
-    texture t{};
-    t.open(fileName);
-    return t;
+    return texture::openFromFile(fileName);
 }
 
 void aiInit()

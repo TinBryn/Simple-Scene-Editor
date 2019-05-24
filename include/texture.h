@@ -9,11 +9,12 @@
 
 struct texture
 {
-    int height;
     int width;
+    int height;
     unsigned char *rgbData;   // Array of bytes with the colour data for the texture
+    unsigned int id;
 
-    void open(std::string const&filename);
+    static texture openFromFile(std::string const&filename);
 };
 
 #endif //CITS3003_TEXTURE_H

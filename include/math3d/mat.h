@@ -5,6 +5,7 @@
 #ifndef CITS3003_MAT_H
 #define CITS3003_MAT_H
 
+#include <iosfwd>
 #include "fwdtypes.h"
 
 struct Mat2
@@ -159,7 +160,7 @@ struct Mat4
 
     Mat4 translated(Vec3 const&v);
 
-    Mat4 perspective(float xnear, float ynear, float near, float far);
+    Mat4 perspective(float xfov, float yfov, float near, float far);
 
     Mat4 ortho(float top, float bottom, float left, float right, float near, float far);
 
@@ -201,5 +202,9 @@ Mat4 operator*(Mat4 const &a, Mat4 const &b);
 Vec4 operator*(Mat4 const &m, Vec4 const &b);
 
 Mat4 lookat(Vec3 const &from, Vec3 const &to, Vec3 const &up, float fov, float aspect, float near, float far);
+
+Mat4 perspective(float width, float height, float near, float far);
+
+std::ostream &operator <<(std::ostream& os, Mat4 const&mat);
 
 #endif //CITS3003_MAT_H

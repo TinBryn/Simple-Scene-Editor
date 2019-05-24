@@ -10,15 +10,6 @@
 #include <assimp/cimport.h>
 #include "model.h"
 
-void resetModel(Model model, unsigned int program)
-{
-    glBindVertexArray(model.vao);
-    GLuint vPosition_location = glGetAttribLocation(program, "vPosition");
-
-    glVertexAttribPointer(vPosition_location, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
-    glEnableVertexAttribArray(vPosition_location);
-}
-
 aiMesh *loadMesh(const std::string &filename)
 {
     aiScene const *scene = aiImportFile(filename.c_str(),
@@ -69,7 +60,3 @@ Model Model::initFromFile(std::string const &filename, ShaderProgram program)
     return {vao, mesh->mNumFaces * 3};
 }
 
-void Model::render()
-{
-    glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, nullptr);
-}

@@ -13,6 +13,8 @@ void special_keyboard(int key, int x, int y);
 
 void resize(int width, int height);
 
+void mousePassiveMotion(int x, int y);
+
 void idle();
 
 #endif //CITS3003_CALLBACKS_H

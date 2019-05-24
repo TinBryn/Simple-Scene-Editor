@@ -8,6 +8,5 @@
 
 void idle()
 {
-    State::angle += 0.01;
     glutPostRedisplay();
 }

@@ -93,4 +93,6 @@ void ShaderProgram::reload()
     vTex_location = glGetAttribLocation(id, "vTex");
     vNormal_location = glGetAttribLocation(id, "vNormal");
     ModelView_location = glGetUniformLocation(id, "ModelView");
+    Projection_location = glGetUniformLocation(id, "Projection");
+    texture_location = glGetUniformLocation(id, "texture");
 }

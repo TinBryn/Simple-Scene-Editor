@@ -2,6 +2,7 @@
 // Created by kieran on 22/05/19.
 //
 
+#include <iostream>
 #include <cmath>
 #include <math3d/vec.h>
 #include "math3d/mat.h"
@@ -114,9 +115,9 @@ Mat4 Mat4::rotatedZX(float angle)
 
 Mat4 Mat4::scaled(float xs, float ys, float zs)
 {
-    return {e11 * xs, e12 * xs, e13 * xs, 0,
-            e21 * ys, e22 * ys, e23 * ys, 0,
-            e31 * zs, e32 * zs, e33 * zs, 0,
+    return {e11 * xs, e12 * xs, e13 * xs, e14 * xs,
+            e21 * ys, e22 * ys, e23 * ys, e24 * ys,
+            e31 * zs, e32 * zs, e33 * zs, e34 * zs,
             0, 0, 0, 1};
 }
 
@@ -203,4 +204,25 @@ Vec4 operator*(Mat4 const &m, Vec4 const &b)
             m[4] * b.x + m[5] * b.y + m[6] * b.z + m[7] * b.w,
             m[8] * b.x + m[9] * b.y + m[10] * b.z + m[11] * b.w,
             m[12] * b.x + m[13] * b.y + m[14] * b.z + m[15] * b.w};
+}
+
+std::ostream &operator <<(std::ostream& os, Mat4 const&mat)
+{
+    os << mat[0] << ", " << mat[1]<< ", " << mat[2]<< ", " << mat[3] << std::endl;
+    os << mat[4] << ", " << mat[5]<< ", " << mat[6]<< ", " << mat[7] << std::endl;
+    os << mat[8] << ", " << mat[9]<< ", " << mat[10]<< ", " << mat[11] << std::endl;
+    os << mat[12] << ", " << mat[13]<< ", " << mat[14]<< ", " << mat[15] << std::endl;
+}
+
+Mat4 perspective(float width, float height, float near, float far)
+{
+    float a = 1.0 / width;
+    float b = 1.0 / height;
+    float c = (near + far) / (far - near);
+    float d = 2 * near * far / (near - far);
+
+    return {a, 0, 0, 0,
+            0, b, 0, 0,
+            0, 0, c, d,
+            0, 0, 1, 0};
 }
