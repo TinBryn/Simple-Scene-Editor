@@ -1,4 +1,4 @@
-#version 330
+#version 330 core
 
 in vec3 fPosition;
 in vec3 fNormal;
@@ -6,7 +6,7 @@ in vec3 fLight1;
 in vec3 fLight2;
 in vec2 texCoord;
 
-out vec4 gl_FragColor;
+out vec4 FragColor;
 
 uniform sampler2D texture;
 uniform float shininess;
@@ -85,5 +85,5 @@ void main()
 
     vec3 lightColor = binom(metalicity, (diffuseColor + Ambient) * texColor, specularColor);
 
-    gl_FragColor = vec4(exposure(lightColor), 1.0);
+    FragColor = vec4(exposure(lightColor), 1.0);
 }

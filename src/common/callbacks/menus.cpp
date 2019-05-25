@@ -92,21 +92,26 @@ void mainMenu(int id)
             State::currMode = id;
             break;
     }
+    glutPostRedisplay();
 }
 
 void objectMenu(int id)
 {
     addObject(id);
+
+    glutPostRedisplay();
 }
 
 void materialMenu(int id)
 {
     State::currMode = id;
+
+    glutPostRedisplay();
 }
 
 int createArrayMenu(std::vector<std::string> const &entries, void(*menuFn)(int))
 {
-    int size = entries.size();
+    int size = (int) entries.size();
     int nSubMenus = (size - 1) / 10 + 1;
     int subMenus[nSubMenus];
 
@@ -134,16 +139,22 @@ int createArrayMenu(std::vector<std::string> const &entries, void(*menuFn)(int))
 void texMenu(int id)
 {
     State::objects[State::currObject].textureId = id;
+
+    glutPostRedisplay();
 }
 
 void groundMenu(int id)
 {
     State::floor.textureId = id;
+
+    glutPostRedisplay();
 }
 
 void lightMenu(int id)
 {
     State::currMode = id;
+
+    glutPostRedisplay();
 }
 
 

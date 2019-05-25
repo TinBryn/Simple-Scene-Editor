@@ -27,11 +27,11 @@ void init(int argc, char **argv)
     State::window_width = 1024;
 
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
     glutInitWindowSize(State::window_width, State::window_height);
     glutInitWindowPosition(100, 100);
-    glutInitContextVersion(3, 2);
-    glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);
+    glutInitContextVersion(3, 3);
+    glutInitContextProfile(GLUT_CORE_PROFILE);
     glutCreateWindow(argv[0]);
     glewInit();
 
