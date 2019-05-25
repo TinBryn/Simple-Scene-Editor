@@ -11,7 +11,7 @@ struct Mouse
 {
     Vec2 pos;
     Vec2 delta;
-    bool pressed[3];
+    bool pressed[2];
 
 };
 

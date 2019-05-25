@@ -59,7 +59,8 @@ Model Model::initFromFile(std::string const &filename, ShaderProgram program)
     return {vao, mesh->mNumFaces * 3};
 }
 
-Model Model::initFromArray(float const *pos, float const *normals, float const *tex, unsigned int nVerts, ShaderProgram program)
+Model Model::initFromArray(float const *pos, float const *normals, float const *tex, unsigned int nVerts,
+                           ShaderProgram program)
 {
     GLuint buffers[2];
     GLuint vao;
@@ -81,16 +82,18 @@ Model Model::initFromArray(float const *pos, float const *normals, float const *
         elements[i] = i;
     }
 
+#define BUFFER_OFFSET(x) (void *) (x)
+
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(program.vPosition_location, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
+    glVertexAttribPointer(program.vPosition_location, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
     glEnableVertexAttribArray(program.vPosition_location);
 
-    glVertexAttribPointer(program.vTex_location, 3, GL_FLOAT, GL_FALSE, 0, (void *) (scale * nVerts));
+    glVertexAttribPointer(program.vTex_location, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(scale * nVerts));
     glEnableVertexAttribArray(program.vTex_location);
 
-    glVertexAttribPointer(program.vNormal_location, 3, GL_FLOAT, GL_FALSE, 0, (void *) (2 * scale * nVerts));
+    glVertexAttribPointer(program.vNormal_location, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(2 * scale * nVerts));
     glEnableVertexAttribArray(program.vNormal_location);
 
     return {vao, nVerts};
