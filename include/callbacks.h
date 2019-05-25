@@ -17,8 +17,6 @@ void mouseClick(int button, int state, int x, int y);
 
 void mouseMove(int x, int y);
 
-void mainMenu(int id);
-
 void idle();
 
 #endif //CITS3003_CALLBACKS_H

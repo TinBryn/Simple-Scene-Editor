@@ -9,8 +9,8 @@
 
 struct Light
 {
-    Vec3 position;
     Vec3 color;
+    SceneObject rep;
 };
 
 #endif //CITS3003_LIGHT_H

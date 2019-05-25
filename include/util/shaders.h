@@ -26,15 +26,21 @@ struct ShaderProgram
     unsigned int vPosition_location;
     unsigned int vTex_location;
     unsigned int vNormal_location;
-    unsigned int ModelView_location;
+    unsigned int Model_location;
+    unsigned int View_location;
     unsigned int texture_location;
     unsigned int Projection_location;
     unsigned int Ambient_location;
-    unsigned int Diffuse_location;
-    unsigned int Specular_location;
-    unsigned int LightPosition_location;
-    unsigned int LightColor_location;
-    unsigned int Shininess_location;
+
+    unsigned int LightPosition1_location;
+    unsigned int LightColor1_location;
+    unsigned int LightPosition2_location;
+    unsigned int LightColor2_location;
+
+    unsigned int shininess_location;
+    unsigned int objectColor_location;
+    unsigned int textureScale_location;
+    unsigned int metalicity_location;
 
 private:
     std::vector<Shader> shaders;

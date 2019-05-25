@@ -92,9 +92,16 @@ void ShaderProgram::reload()
     vPosition_location = glGetAttribLocation(id, "vPosition");
     vTex_location = glGetAttribLocation(id, "vTex");
     vNormal_location = glGetAttribLocation(id, "vNormal");
-    ModelView_location = glGetUniformLocation(id, "ModelView");
+    Model_location = glGetUniformLocation(id, "Model");
+    View_location = glGetUniformLocation(id, "View");
     Projection_location = glGetUniformLocation(id, "Projection");
     texture_location = glGetUniformLocation(id, "texture");
-    LightPosition_location = glGetUniformLocation(id, "LightPosition");
-    LightColor_location = glGetUniformLocation(id, "LightColor");
+    LightPosition1_location = glGetUniformLocation(id, "LightPosition1");
+    LightColor1_location = glGetUniformLocation(id, "LightColor1");
+    LightPosition2_location = glGetUniformLocation(id, "LightPosition2");
+    LightColor2_location = glGetUniformLocation(id, "LightColor2");
+    shininess_location = glGetUniformLocation(id, "shininess");
+    objectColor_location = glGetUniformLocation(id, "objectColor");
+    textureScale_location = glGetUniformLocation(id, "textureScale");
+    metalicity_location = glGetUniformLocation(id, "metalicity");
 }

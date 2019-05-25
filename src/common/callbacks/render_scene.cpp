@@ -30,16 +30,17 @@ Model &getModel(int i)
     return m;
 }
 
-void drawObject(SceneObject const &object, Mat4 const &View)
+void drawObject(SceneObject const &object)
 {
-    Mat4 modelView = View * Mat4(1)
+    Mat4 Model = Mat4(1)
             .rotatedYZ(object.angles[0])
-            .rotatedZX(object.angles[1])
             .rotatedXY(object.angles[2])
+            .rotatedZX(object.angles[1])
+
             .scaled(object.scale)
             .translated(object.location);
 
-    glUniformMatrix4fv(State::program.ModelView_location, 1, GL_TRUE, modelView.data);
+    glUniformMatrix4fv(State::program.Model_location, 1, GL_TRUE, Model.data);
 
     glActiveTexture(GL_TEXTURE0);
 
@@ -47,9 +48,14 @@ void drawObject(SceneObject const &object, Mat4 const &View)
     glBindTexture(GL_TEXTURE_2D, tID);
 
     glUniform1i(State::program.texture_location, 0);
+    glUniform1f(State::program.shininess_location, object.shininess);
+    glUniform1f(State::program.textureScale_location, object.texScale);
+    glUniform1f(State::program.metalicity_location, object.metalicity);
+    glUniform3fv(State::program.objectColor_location, 1, object.color.data());
     glBindVertexArray(getModel(object.modelId).vao);
 
     glDrawElements(GL_TRIANGLES, State::models[object.modelId].size, GL_UNSIGNED_INT, nullptr);
+
 }
 
 void render_scene()
@@ -61,22 +67,32 @@ void render_scene()
             .rotatedZX(State::camera.hAngle)
             .rotatedYZ(State::camera.vAngle)
             .translated(0.0, 0.0, State::camera.distance)
-
     ;
+    //view Matrix
+    glUniformMatrix4fv(State::program.View_location, 1, GL_TRUE, view.data);
 
     float m = std::min(State::window_width, State::window_height) * State::camera.zoom;
 
-    Mat4 projection = perspective(State::window_width / m, State::window_height / m, 0.1, 1000);
-
+    Mat4 projection = perspective(State::window_width / m, State::window_height / m, 0.1, 10000);
+    //projection Matrix
     glUniformMatrix4fv(State::program.Projection_location, 1, GL_TRUE, projection.data);
-    glUniform3fv(State::program.LightPosition_location, 1, State::light.position.data());
-    glUniform3fv(State::program.LightColor_location, 1, State::light.color.data());
 
-    drawObject(State::floor, view);
+    glUniform3fv(State::program.LightPosition1_location, 1, State::light1.rep.location.data());
+    glUniform3fv(State::program.LightColor1_location, 1, State::light1.color.data());
+
+    glUniform3fv(State::program.LightPosition2_location, 1, State::light2.rep.location.data());
+    glUniform3fv(State::program.LightColor2_location, 1, State::light2.color.data());
+
+    glUniform3fv(State::program.Ambient_location, 1, State::ambientColor.data());
+
+    drawObject(State::floor);
+    drawObject(State::light1.rep);
+    drawObject(State::light2.rep);
+
 
     for (SceneObject object : State::objects)
     {
-        drawObject(object, view);
+        drawObject(object);
     }
     glutSwapBuffers();
 }

@@ -16,17 +16,15 @@ void keyboard(unsigned char key, int, int)
             glutLeaveMainLoop();
             break;
         case 'r':
-            std::cout << "reloading shaders" << std::endl;
             State::program.reload();
             glutPostRedisplay();
-            std::cout << "done" << std::endl;
-
+        case '=':
+            if(State::currObject < State::objects.size()-1)
+                State::currObject += 1;
             break;
-        case 'w':
-            State::camera.position.y += 10;
-            break;
-        case 's':
-            State::camera.position.y -= 10;
+        case '-':
+            if(State::currObject > 0)
+                State::currObject -= 1;
             break;
         default:
             std::cout << (unsigned int) key << std::endl;

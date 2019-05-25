@@ -9,12 +9,13 @@
 #include "init.h"
 #include "callbacks.h"
 #include "state.h"
+#include "menus.h"
 
 
 void preAllocateModelsAndTextures()
 {
-    const int ModelNumber = 56;
-    const int TextureNumber = 31;
+    const int ModelNumber = State::numMeshes;
+    const int TextureNumber = State::numTextures;
 
     State::models = std::vector<Model>(ModelNumber, Model{0, 0});
     State::textures = std::vector<texture>(TextureNumber, texture{-1, 0, nullptr, 0});
@@ -30,7 +31,7 @@ void init(int argc, char **argv)
     glutInitWindowSize(State::window_width, State::window_height);
     glutInitWindowPosition(100, 100);
     glutInitContextVersion(3, 2);
-    glutInitContextProfile(GLUT_CORE_PROFILE);
+    glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);
     glutCreateWindow(argv[0]);
     glewInit();
 
@@ -44,14 +45,7 @@ void init(int argc, char **argv)
     glutMotionFunc(mouseMove);
     glutIdleFunc(idle);
 
-    int menu = glutCreateMenu(mainMenu);
-
-    glutAddMenuEntry("Red", 1);
-    glutAddMenuEntry("Green", 2);
-    glutAddMenuEntry("Blue", 3);
-    glutAddMenuEntry("Quit", 4);
-
-    glutAttachMenu(GLUT_RIGHT_BUTTON);
+    makeMenu();
 
 
     glClearColor(0.2, 0.3, 0.4, 1.0);
@@ -60,29 +54,47 @@ void init(int argc, char **argv)
     State::program.attachShader({GL_VERTEX_SHADER, "../src/shaders/vert.glsl", 0});
     State::program.attachShader({GL_FRAGMENT_SHADER, "../src/shaders/frag.glsl", 0});
     State::program.reload();
-//    State::shader = initShader("../src/shaders/vert.glsl", "../src/shaders/frag.glsl");
-//    glUseProgram(State::shader);
 
     preAllocateModelsAndTextures();
 
     std::random_device device;
-    std::mt19937 generator(device());
+    State::randomEngine = std::default_random_engine(device());
+
     std::uniform_int_distribution<int> modelSelect(1, 55);
     std::uniform_int_distribution<int> textureSelect(2, 30);
 
-    int model = modelSelect(generator);
-    int objTexture = textureSelect(generator);
-    int floorTexture = textureSelect(generator);
+    int model = modelSelect(State::randomEngine);
+    int objTexture = textureSelect(State::randomEngine);
+    int floorTexture = textureSelect(State::randomEngine);
+
+    Vec3 const lightPos1{0, 100, 100};
+    Vec3 const lightPos2{0, 100, -100};
+
+    State::camera = Camera{{0,0,0}, 0, -0.2, 1, 150};
+    State::currMode = 50;
+
+    State::light1 = {{40, 40, 20}, {55, 4}};
+    State::light1.rep.location = lightPos1;
+    State::light1.rep.scale = 5;
+
+    State::light2 = {{40, 40, 20}, {55, 4}};
+    State::light2.rep.location = lightPos2;
+    State::light2.rep.scale = 5;
+
+    State::ambientColor = {0.2, 0.2, 0.5};
 
     State::floor.modelId = 0;
     State::floor.textureId = floorTexture;
-    State::floor.scale = 100;
-    State::floor.angles[0] = M_PI / 2;
+    State::floor.scale = 1000;
+    State::floor.angles[0] = -M_PI / 2;
+    State::floor.shininess = 5;
+    State::floor.color = {1, 1, 1};
+    State::floor.texScale = 4;
+    State::floor.metalicity = 0.5;
 
     State::objects.emplace_back(model, objTexture);
+    State::currObject = State::objects.size() - 1;
 
-//    State::models.push_back(Model::initFromFile("../models-textures/model0.x", State::program));
-//    State::models.push_back(Model::initFromFile("../models-textures/model3.x", State::program));
 }
 
 void loop()
