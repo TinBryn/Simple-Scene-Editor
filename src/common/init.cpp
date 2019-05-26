@@ -81,12 +81,12 @@ void init(int argc, char **argv)
     State::light2.rep.location = lightPos2;
     State::light2.rep.scale = 5;
 
-    State::ambientColor = {0.2, 0.2, 0.5};
+    State::ambientColor = {0.5, 0.5, 0.8};
 
     State::floor.modelId = 0;
     State::floor.textureId = floorTexture;
     State::floor.scale = 1000;
-    State::floor.angles[0] = -M_PI / 2;
+    State::floor.angles[0] = -M_PI / 2.0f;
     State::floor.shininess = 5;
     State::floor.color = {1, 1, 1};
     State::floor.texScale = 4;

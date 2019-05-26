@@ -99,6 +99,8 @@ void objectMenu(int id)
 {
     addObject(id);
 
+    State::currMode = 41;
+
     glutPostRedisplay();
 }
 
