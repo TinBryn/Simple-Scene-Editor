@@ -125,7 +125,6 @@ void drawObject(SceneObject const &object)
             .rotatedYZ(object.angles[0])
             .rotatedXY(object.angles[2])
             .rotatedZX(object.angles[1])
-
             .scaled(object.scale)
             .translated(object.location);
 
