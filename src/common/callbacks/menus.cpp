@@ -21,7 +21,7 @@ std::vector<std::string> const objectMenuEntries = {
         "36 Chihuahua", "37 Sabre-toothed Tiger", "38 Lioness", "39 Fish", "40 Horse (head down)",
         "41 Horse (head up)", "42 Skull", "43 Fighter Jet I", "44 Toad", "45 Convertible",
         "46 Porsche II", "47 Hare", "48 Vintage Car", "49 Fighter Jet II", "50 Gargoyle",
-        "51 Chef", "52 Parasaurolophus", "53 Rooster", "54 T-rex", "55 Sphere"
+        "51 Chef", "52 Parasaurolophus", "53 Rooster", "54 T-rex", "55 Sphere", "56 Human"
 };
 
 std::vector<std::string> const textureMenuEntries = {
@@ -53,7 +53,6 @@ void makeMenu()
 
     int materialMenuId = glutCreateMenu(materialMenu);
     glutAddMenuEntry("RG/BY/Brightness", 10);
-    glutAddMenuEntry("Ambient", 20);
     glutAddMenuEntry("Shininess/Metalicity", 21);
 
     int texMenuId = createArrayMenu(textureMenuEntries, texMenu);
@@ -65,6 +64,7 @@ void makeMenu()
     glutAddMenuEntry("RG/BY/Brightness Light 1", 71);
     glutAddMenuEntry("Move Light 2", 80);
     glutAddMenuEntry("RG/BY/Brightness Light 2", 81);
+    glutAddMenuEntry("Ambient", 20);
 
     glutCreateMenu(mainMenu);
 
@@ -97,6 +97,7 @@ void mainMenu(int id)
 void objectMenu(int id)
 {
     addObject(id);
+    State::currMode = 41;
 }
 
 void materialMenu(int id)

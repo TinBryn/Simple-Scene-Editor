@@ -10,6 +10,61 @@
 #include <assimp/cimport.h>
 #include "model.h"
 
+void
+getBonesAffectingEachVertex(aiMesh const *mesh, std::vector<std::array<float, 4>> &boneIds,
+                            std::vector<std::array<float, 4>> &boneWeights)
+{
+    int nVertices = mesh->mNumVertices;
+
+    boneWeights = std::vector<std::array<float, 4>>(nVertices);
+    boneIds = std::vector<std::array<float, 4>>(nVertices);
+
+    int nBones = mesh->mNumBones;
+
+    if (nBones == 0)
+    {
+        for (int i = 0; i < nVertices; i++)
+        {
+            boneIds[i][0] = 0;
+            boneIds[i][1] = 0;
+            boneIds[i][2] = 0;
+            boneIds[i][3] = 0;
+
+            boneWeights[i][0] = 1.0;
+            boneWeights[i][1] = 1.0;
+            boneWeights[i][2] = 1.0;
+            boneWeights[i][3] = 1.0;
+        }
+        return;
+    }
+
+    aiBone **bones = mesh->mBones;
+
+    for (int boneId = 0; boneId < nBones; boneId++)
+    {
+        for (int weightId = 0; weightId < bones[boneId]->mNumWeights; weightId++)
+        {
+            int vertexId = bones[boneId]->mWeights[weightId].mVertexId;
+            float weight = bones[boneId]->mWeights[weightId].mWeight;
+
+            for (int slotId = 0; slotId < 4; slotId++)
+            {
+                if (boneWeights[vertexId][slotId] < weight)
+                {
+                    for (int shuf = 3; shuf > slotId; shuf--)
+                    {
+                        boneWeights[vertexId][shuf] = boneWeights[vertexId][shuf - 1];
+                        boneIds[vertexId][shuf] = boneIds[vertexId][shuf - 1];
+                    }
+                    boneWeights[vertexId][slotId] = weight;
+                    boneIds[vertexId][slotId] = boneId;
+                    break;
+                }
+            }
+        }
+    }
+}
+
 aiMesh *loadMesh(const std::string &filename)
 {
     aiScene const *scene = aiImportFile(filename.c_str(),
@@ -17,24 +72,36 @@ aiMesh *loadMesh(const std::string &filename)
     return scene->mMeshes[0];
 }
 
-Model Model::initFromFile(std::string const &filename, ShaderProgram program)
+Model Model::initFromFile(std::string const &filename, ShaderProgram const &program)
 {
     aiMesh const *mesh = loadMesh(filename);
 
-    GLuint buffers[2];
+    return setupModel(mesh, program);
+}
+
+aiScene const *Model::loadScene(std::string const &filename)
+{
+    return aiImportFile(filename.c_str(), aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_ConvertToLeftHanded);
+}
+
+Model Model::setupModel(aiMesh const *mesh, ShaderProgram const &program)
+{
+    GLuint buffers[4];
     GLuint vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
-    glGenBuffers(2, buffers);
+    glGenBuffers(4, buffers);
     glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
 
     int nVerts = mesh->mNumVertices;
-    long scale = sizeof(float) * 3;
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * (3 + 3 + 3) * nVerts, nullptr, GL_STATIC_DRAW);
+    long scaleVertex = sizeof(float) * 3;
 
-    glBufferSubData(GL_ARRAY_BUFFER, 0, scale * nVerts, mesh->mVertices);
-    glBufferSubData(GL_ARRAY_BUFFER, scale * nVerts, scale * nVerts, mesh->mTextureCoords[0]);
-    glBufferSubData(GL_ARRAY_BUFFER, 2 * scale * nVerts, scale * nVerts, mesh->mNormals);
+    Model model;
+    model.vao = vao;
+    model.mesh = mesh;
+    model.size = mesh->mNumFaces * 3;
+
+    getBonesAffectingEachVertex(mesh, model.boneIds, model.boneWeights);
 
     GLuint elements[mesh->mNumFaces * 3];
     for (GLuint i = 0; i < mesh->mNumFaces; i++)
@@ -44,55 +111,47 @@ Model Model::initFromFile(std::string const &filename, ShaderProgram program)
         elements[i * 3 + 2] = mesh->mFaces[i].mIndices[2];
     }
 
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * (3 + 3 + 3) * nVerts, nullptr,
+                 GL_STATIC_DRAW);
+
+    glBufferSubData(GL_ARRAY_BUFFER, 0, scaleVertex * nVerts, mesh->mVertices);
+    glBufferSubData(GL_ARRAY_BUFFER, scaleVertex * nVerts, scaleVertex * nVerts, mesh->mTextureCoords[0]);
+    glBufferSubData(GL_ARRAY_BUFFER, 2 * scaleVertex * nVerts, scaleVertex * nVerts, mesh->mNormals);
+
+
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(program.vPosition_location, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
+
+#define BUFFER_OFFSET(x) (void*) (x)
+
+    glVertexAttribPointer(program.vPosition_location, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
     glEnableVertexAttribArray(program.vPosition_location);
 
-    glVertexAttribPointer(program.vTex_location, 3, GL_FLOAT, GL_FALSE, 0, (void *) (scale * nVerts));
+    glVertexAttribPointer(program.vTex_location, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(scaleVertex * nVerts));
     glEnableVertexAttribArray(program.vTex_location);
 
-    glVertexAttribPointer(program.vNormal_location, 3, GL_FLOAT, GL_FALSE, 0, (void *) (2 * scale * nVerts));
+    glVertexAttribPointer(program.vNormal_location, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(2 * scaleVertex * nVerts));
     glEnableVertexAttribArray(program.vNormal_location);
 
-    return {vao, mesh->mNumFaces * 3};
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[2]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * nVerts, model.boneIds[0].data(), GL_STATIC_DRAW);
+
+    glVertexAttribPointer(program.boneIDs_location, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+    glEnableVertexAttribArray(program.boneIDs_location);
+
+    glBindBuffer(GL_ARRAY_BUFFER, buffers[3]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * nVerts, model.boneWeights[0].data(), GL_STATIC_DRAW);
+
+    glVertexAttribPointer(program.boneWeights_location, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+    glEnableVertexAttribArray(program.boneWeights_location);
+
+
+    return model;
 }
 
-Model Model::initFromArray(float const *pos, float const *normals, float const *tex, unsigned int nVerts, ShaderProgram program)
+Model Model::initFromScene(aiScene const *scene, ShaderProgram const &program)
 {
-    GLuint buffers[2];
-    GLuint vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-    glGenBuffers(2, buffers);
-    glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
-
-    long scale = sizeof(float) * 3;
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * (3 + 3 + 3) * nVerts, nullptr, GL_STATIC_DRAW);
-
-    glBufferSubData(GL_ARRAY_BUFFER, 0, scale * nVerts, pos);
-    glBufferSubData(GL_ARRAY_BUFFER, scale * nVerts, scale * nVerts, normals);
-    glBufferSubData(GL_ARRAY_BUFFER, 2 * scale * nVerts, scale * nVerts, tex);
-
-    GLuint elements[nVerts];
-    for (GLuint i = 0; i < nVerts; i++)
-    {
-        elements[i] = i;
-    }
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(program.vPosition_location, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
-    glEnableVertexAttribArray(program.vPosition_location);
-
-    glVertexAttribPointer(program.vTex_location, 3, GL_FLOAT, GL_FALSE, 0, (void *) (scale * nVerts));
-    glEnableVertexAttribArray(program.vTex_location);
-
-    glVertexAttribPointer(program.vNormal_location, 3, GL_FLOAT, GL_FALSE, 0, (void *) (2 * scale * nVerts));
-    glEnableVertexAttribArray(program.vNormal_location);
-
-    return {vao, nVerts};
+    return setupModel(scene->mMeshes[0], program);
 }
 

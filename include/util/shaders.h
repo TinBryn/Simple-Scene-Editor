@@ -19,28 +19,34 @@ struct Shader
 
 struct ShaderProgram
 {
+    using loc = unsigned int;
     unsigned int id;
     void attachShader(Shader const&shader);
     void reload();
     void link();
-    unsigned int vPosition_location;
-    unsigned int vTex_location;
-    unsigned int vNormal_location;
-    unsigned int Model_location;
-    unsigned int View_location;
-    unsigned int texture_location;
-    unsigned int Projection_location;
-    unsigned int Ambient_location;
+    loc vPosition_location;
+    loc vTex_location;
+    loc vNormal_location;
+    loc Model_location;
+    loc View_location;
+    loc texture_location;
+    loc Projection_location;
+    loc Ambient_location;
 
-    unsigned int LightPosition1_location;
-    unsigned int LightColor1_location;
-    unsigned int LightPosition2_location;
-    unsigned int LightColor2_location;
+    loc LightPosition1_location;
+    loc LightColor1_location;
+    loc LightPosition2_location;
+    loc LightColor2_location;
 
-    unsigned int shininess_location;
-    unsigned int objectColor_location;
-    unsigned int textureScale_location;
-    unsigned int metalicity_location;
+    loc shininess_location;
+    loc objectColor_location;
+    loc textureScale_location;
+    loc metalicity_location;
+    loc fogDistance_location;
+    loc fogColor_location;
+    loc boneIDs_location;
+    loc boneWeights_location;
+    loc boneTransforms_location;
 
 private:
     std::vector<Shader> shaders;

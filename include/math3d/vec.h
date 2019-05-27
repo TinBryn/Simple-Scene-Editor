@@ -6,6 +6,7 @@
 #define CITS3003_VEC_H
 
 #include "fwdtypes.h"
+#include <iosfwd>
 
 struct Vec2
 {
@@ -143,6 +144,8 @@ Vec2 operator-(Vec2 a, Vec2 const &b);
 Vec2 operator*(Vec2 a, Vec2 const &b);
 
 Vec2 operator/(Vec2 a, Vec2 const &b);
+
+std::ostream &operator<<(std::ostream &os, Vec3 &v);
 
 //Vec3 operations
 

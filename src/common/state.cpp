@@ -17,11 +17,18 @@ Light State::light1;
 Light State::light2;
 Vec3 State::ambientColor;
 
-int const State::numMeshes = 56;
+int const State::numMeshes = 57;
 int const State::numTextures = 31;
 
 int State::currObject = 0;
 int State::currMode;
 
+
+float State::fogDistance;
+Vec3 State::fogColor;
+
+std::vector<aiScene const*> State::scenes;
+
+int State::numberFrames;
 
 std::default_random_engine State::randomEngine;

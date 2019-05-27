@@ -104,4 +104,9 @@ void ShaderProgram::reload()
     objectColor_location = glGetUniformLocation(id, "objectColor");
     textureScale_location = glGetUniformLocation(id, "textureScale");
     metalicity_location = glGetUniformLocation(id, "metalicity");
+    fogDistance_location = glGetUniformLocation(id, "fogDistance");
+    fogColor_location = glGetUniformLocation(id, "fogColor");
+    boneIDs_location = glGetAttribLocation(id, "boneIDs");
+    boneWeights_location = glGetAttribLocation(id, "boneWeights");
+    boneTransforms_location = glGetUniformLocation(id, "boneTransforms");
 }

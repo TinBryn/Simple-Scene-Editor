@@ -10,6 +10,7 @@
 #include <vector>
 #include <random>
 #include <util/shaders.h>
+#include <assimp/scene.h>
 #include "model.h"
 #include "texture.h"
 #include "scene_object.h"
@@ -36,6 +37,10 @@ struct State
     static Light light2;
     static std::default_random_engine randomEngine;
     static Vec3 ambientColor;
+    static float fogDistance;
+    static Vec3 fogColor;
+    static std::vector<aiScene const*> scenes;
+    static int numberFrames;
 };
 
 #endif //CITS3003_STATE_H

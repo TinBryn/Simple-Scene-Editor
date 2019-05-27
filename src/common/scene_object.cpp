@@ -36,5 +36,10 @@ void addObject(int id)
     std::uniform_int_distribution<int> textureSelect(2, 30);
     State::objects.emplace_back(id, textureSelect(State::randomEngine), currPos, 1.0);
     State::currObject = State::objects.size()-1;
+    if (id == 56)
+    {
+        State::objects[State::currObject].scale = 10;
+        //State::objects[State::currObject].angles[0] = -M_PI / 2;
+    }
 
 }

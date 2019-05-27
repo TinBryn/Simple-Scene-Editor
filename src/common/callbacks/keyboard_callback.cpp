@@ -10,7 +10,7 @@
 
 void keyboard(unsigned char key, int, int)
 {
-    switch(key)
+    switch (key)
     {
         case '\033':
             glutLeaveMainLoop();
@@ -19,12 +19,22 @@ void keyboard(unsigned char key, int, int)
             State::program.reload();
             glutPostRedisplay();
         case '=':
-            if(State::currObject < State::objects.size()-1)
+            if (State::currObject < State::objects.size() - 1)
                 State::currObject += 1;
             break;
         case '-':
-            if(State::currObject > 0)
+            if (State::currObject > 0)
                 State::currObject -= 1;
+            break;
+        case 'p':
+            switch (State::currMode)
+            {
+                case 20:
+                    std::cout << "Ambient color = " << State::ambientColor << std::endl;
+                    break;
+                default:
+                    break;
+            }
             break;
         default:
             std::cout << (unsigned int) key << std::endl;

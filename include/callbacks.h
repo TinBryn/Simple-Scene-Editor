@@ -19,4 +19,6 @@ void mouseMove(int x, int y);
 
 void idle();
 
+void timer(int);
+
 #endif //CITS3003_CALLBACKS_H

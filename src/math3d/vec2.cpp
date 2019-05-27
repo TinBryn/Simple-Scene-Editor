@@ -2,6 +2,7 @@
 // Created by kieran on 22/05/19.
 //
 
+#include <ostream>
 #include "math3d/vec.h"
 
 Vec2 operator/(Vec2 a, Vec2 const &b)
@@ -22,6 +23,11 @@ Vec2 operator-(Vec2 a, Vec2 const &b)
 Vec2 operator+(Vec2 a, Vec2 const &b)
 {
     return a += b;
+}
+
+std::ostream &operator<<(std::ostream &os, Vec3 &v)
+{
+    os << "(" << v.x << "," << v.y << "," << v.z << ")";
 }
 
 Vec2::Vec2(Vec3 const &v) : x(v.x), y(v.y)
